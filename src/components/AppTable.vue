@@ -22,16 +22,16 @@
 
 
 <script>
-import {mapGetters} from "vuex";
-import AppCol from "@/components/AppCol.vue";
-import ToolBar from "@/components/ToolBar.vue";
+import {mapGetters} from "vuex"
+import AppCol from "@/components/AppCol.vue"
+import ToolBar from "@/components/ToolBar.vue"
 
 export default {
   components: {AppCol, ToolBar},
   data() {
     return {
       items: []
-    };
+    }
   },
   created () {
     this.$store.dispatch("dates/setCurrentWeekDates")
@@ -43,12 +43,12 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch('rooms/fetchData')
+    this.$store.dispatch('bookings/fetchData')
         .then(data => {
           this.items = data
         })
         .catch(error => {
-          console.error('Ошибка при получении данных:', error)
+          console.error('Error while fetching data', error)
         })
   },
   methods: {
@@ -57,8 +57,8 @@ export default {
       const headers = [{ text: '', value: 'name' }]
       currentWeekDates.forEach((date) => {
         headers.push({ text: `${date}`, value: date})
-      });
-      return headers;
+      })
+      return headers
     },
     bookingsToShow(bookedRooms, headerDate) {
       if (!Array.isArray(bookedRooms)) {

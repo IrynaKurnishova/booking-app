@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-for="booking in bookings" :key="booking.id">
-      <div class="flex-container" v-if="booking.end === headerDate || booking.start === headerDate">
+      <div class="d-flex" v-if="booking.end === headerDate || booking.start === headerDate">
         <div class="left-part">
           <div v-if="booking.end === headerDate" class="cell end-button rounded-r-xl" @click="getInfo(booking)"></div>
         </div>
@@ -18,14 +18,14 @@
 </template>
 
 <script>
-import BookingInfo from "@/components/BookingInfo.vue";
+import BookingInfo from "@/components/BookingInfo.vue"
 export default {
   components: {BookingInfo},
   data() {
     return {
       showBookingInfo: false,
       bookingInfo: null
-    };
+    }
   },
   name: "AppCell",
   props: {
@@ -40,7 +40,6 @@ export default {
     getInfo(booking) {
       this.showBookingInfo = true
       this.bookingInfo = booking
-      console.log(booking)
     },
     hideBookingInfo() {
       this.showBookingInfo = false
@@ -66,9 +65,6 @@ export default {
 
 .full-button {
   background-color: deepskyblue;
-}
-.flex-container {
-  display: flex;
 }
 
 .left-part {

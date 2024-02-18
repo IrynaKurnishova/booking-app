@@ -1,4 +1,4 @@
-import moment from 'moment';
+import moment from 'moment'
 
 export default {
     namespaced: true,
@@ -11,16 +11,16 @@ export default {
             return state.currentDate;
         },
         getCurrentWeekDates(state) {
-            return state.currentWeekDates;
+            return state.currentWeekDates
         }
     },
     mutations: {
         setCurrentWeekDates(state) {
-            const currentMonday = state.currentDate.clone().startOf('isoWeek');
+            const currentMonday = state.currentDate.clone().startOf('isoWeek')
             const currentWeekDates = [];
 
             for (let i = 0; i < 7; i++) {
-                const date = currentMonday.clone().add(i, 'days');
+                const date = currentMonday.clone().add(i, 'days')
                 currentWeekDates.push(date.format('YYYY-MM-DD'));
             }
 
@@ -28,19 +28,19 @@ export default {
         },
         setNextWeekDates(state) {
             state.currentWeekDates = state.currentWeekDates
-                .map(dateString => moment(dateString, 'YYYY-MM-DD').add(7, 'days').format('YYYY-MM-DD'));
+                .map(dateString => moment(dateString, 'YYYY-MM-DD').add(7, 'days').format('YYYY-MM-DD'))
         },
         setPrevWeekDates(state) {
             state.currentWeekDates = state.currentWeekDates
-                .map(dateString => moment(dateString, 'YYYY-MM-DD').subtract(7, 'days').format('YYYY-MM-DD'));
+                .map(dateString => moment(dateString, 'YYYY-MM-DD').subtract(7, 'days').format('YYYY-MM-DD'))
         }
     },
     actions: {
         setCurrentWeekDates({ commit }) {
-            commit('setCurrentWeekDates');
+            commit('setCurrentWeekDates')
         },
         setNextWeekDates({ commit }) {
-            commit('setNextWeekDates');
+            commit('setNextWeekDates')
         },
         setPrevWeekDates({commit}) {
             commit('setPrevWeekDates')

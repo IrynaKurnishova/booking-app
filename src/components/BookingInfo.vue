@@ -4,7 +4,7 @@
       <template>
         <v-card title="Dialog">
           <v-card-text>
-            <div class="flex flex-column pt-4 pb-4">
+            <div class="flex flex-column pt-4 pb-4" v-if="info">
             <h3>{{info.name}}</h3>
               <div>{{info.phone}}</div>
               <div>{{info.email}}</div>
