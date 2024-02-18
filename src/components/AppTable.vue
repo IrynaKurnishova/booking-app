@@ -2,20 +2,7 @@
   <v-card>
     <v-data-table :headers="headers" :items="Object.values(items)" dense outlined>
       <template v-slot:top>
-        <v-toolbar flat>
-          <v-btn outlined class="mr-4" color="grey darken-2" @click="setToday">
-            Today
-          </v-btn>
-          <v-btn fab text small color="grey darken-2" @click="prev">
-            <v-icon small>mdi-chevron-left</v-icon>
-          </v-btn>
-          <v-btn fab text small color="grey darken-2" @click="next">
-            <v-icon small>mdi-chevron-right</v-icon>
-          </v-btn>
-          <v-toolbar-title>
-            {{ dateTitle }}
-          </v-toolbar-title>
-        </v-toolbar>
+        <tool-bar/>
       </template>
       <template v-slot:item="{ item }">
         <tr class="flex">
@@ -24,7 +11,7 @@
                 {{item[0].roomDetails.name}}
             </template>
             <template v-else>
-              <AppCell :booked-rooms="item" :header-date="header.value" class="flex"/>
+                <AppCol :bookings="bookingsToShow(item, header.value)" :header-date="header.value"/>
             </template>
           </td>
         </tr>
@@ -36,47 +23,53 @@
 
 <script>
 import {mapGetters} from "vuex";
-import AppCell from "@/components/AppCell.vue";
-import moment from 'moment'
+import AppCol from "@/components/AppCol.vue";
+import ToolBar from "@/components/ToolBar.vue";
 
 export default {
-  components: {AppCell},
+  components: {AppCol, ToolBar},
   data() {
     return {
-      items: [],
-      dateTitle: moment().format('YYYY-MM-DD')
+      items: []
     };
   },
   created () {
-    this.$store.dispatch("dates/setCurrentWeekDates");
+    this.$store.dispatch("dates/setCurrentWeekDates")
   },
   computed: {
     ...mapGetters("dates", ["getCurrentDate", "getCurrentWeekDates"]),
     headers() {
-      return this.generateHeaders();
-    },
+      return this.generateHeaders()
+    }
   },
   mounted() {
     this.$store.dispatch('rooms/fetchData')
         .then(data => {
-          console.log(data)
-          this.items = data;
+          this.items = data
         })
         .catch(error => {
-          console.error('Ошибка при получении данных:', error);
-        });
+          console.error('Ошибка при получении данных:', error)
+        })
   },
   methods: {
     generateHeaders() {
-      const currentWeekDates = this.getCurrentWeekDates;
-      const headers = [{ text: '', value: 'name' }];
+      const currentWeekDates = this.getCurrentWeekDates
+      const headers = [{ text: '', value: 'name' }]
       currentWeekDates.forEach((date) => {
-        headers.push({ text: `${date}`, value: date});
+        headers.push({ text: `${date}`, value: date})
       });
       return headers;
+    },
+    bookingsToShow(bookedRooms, headerDate) {
+      if (!Array.isArray(bookedRooms)) {
+        return []
+      }
+      return bookedRooms.filter(bookedItem => {
+        return headerDate >= bookedItem.start && headerDate <= bookedItem.end
+      })
     }
   }
-};
+}
 </script>
 
 <style scoped>
