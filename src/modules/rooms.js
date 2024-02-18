@@ -18,14 +18,6 @@ export default {
             } catch (error) {
                 console.error(error);
             }
-        },
-//          filterBookingsByDate(bookings, targetDate) {
-//     return bookings.filter(booking => {
-//         const startDate = moment(booking.start);
-//         const endDate = moment(booking.end);
-//         return targetDate.isSameOrAfter(startDate) && targetDate.isSameOrBefore(endDate)
-//     });
-// }
-
+        }
     },
 }
